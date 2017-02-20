@@ -1,0 +1,120 @@
+<<div class="jumbotron">
+   <h1> Search Result</h1>
+</div>
+
+<div>
+   <%= paginate @found_in_Topics %>
+</div>
+
+<%  nbr_total_topics   = @found_in_Topics.size %>
+<%  nbrPosts_by_topic  = [] %>
+<%  nbrphotos_by_topic = [] %>
+
+
+<%  @found_in_Topics.each_with_index do |t, i| %>
+<%     nbrPosts_by_topic[i] = Post.find_by_sql([ "select id
+                                                    from posts
+                                                   where topic_id = #{t.id}"
+       ]).count  %>
+
+<%     if nbrPosts_by_topic[i] > 0 %>
+<%        @posts_by_topic = Post.find_by_sql( "select *
+                                                 from posts
+                                                where topic_id = #{t.id}"
+          )  %>
+<%        distinct_users_topic = Post.find_by_sql( "select distinct(user_id)
+                                                      from posts
+                                                     where topic_id = #{t.id}"
+          )  %>
+<%        in_condition = ""
+          distinct_users_topic.each do |d|
+             in_condition.concat("#{d.user_id.to_s},")
+          end %>
+<%        in_condition = in_condition[0..in_condition.length-2] %>
+
+<%         nbrphotos_by_topic[i] = Photo.find_by_sql([ "select *
+                                                          from photos as PH,
+                                                               users  as U
+                                                         where PH.user_id in (#{in_condition})"
+           ]).count   %>
+
+<%         if nbrphotos_by_topic[i] > 0 %>
+<%            @photos_by_topic = @photos.find_by_sql([ "select PH.id
+                                                         from photos as PH,
+                                                              users  as U
+                                                        where PH.user_id in (#{in_condition})"
+              ])   %>
+<%          end %>
+<%     end %>
+
+<%     @nbr_total_posts_topics = nbrPosts_by_topic.inject(0){|sum,x| sum + x } %>
+<%     @nbr_total_photos_topics = nbrphotos_by_topic.inject(0){|sum,x| sum + x }  %>
+
+<%  end %>
+
+<%=  puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" %>
+<%=  puts "nbr_total_topics        = #{@found_in_Topics.size}" %>
+<%=  puts "nbr_total_posts_topics  = #{@nbr_total_posts_topics}" %>
+<%=  puts "nbr_total_photos_topics = #{@nbr_total_photos_topics}" %>
+<%=  puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" %>
+
+
+  <div class="logbox">
+
+  <div class="panel-group input pass" id="accordion">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Results found in Topics (<%= @found_in_Topics.size %>)</a>
+        </h4>
+      </div>
+      <div id="collapse1" class="panel-collapse collapse in">
+        <div class="panel-body">
+          <% if !@found_in_Topics.empty? %>
+          <%    @found_in_Topics.each_with_index do |t, index| %>
+                  <p><%= @found_in_Topics[index][:title] %>
+          <%    end %>
+          <% end %>
+       </div>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Result found in Posts (<%= @nbr_total_posts_topics %>)</a>
+        </h4>
+      </div>
+      <div id="collapse2" class="panel-collapse collapse">
+        <div class="panel-body">
+          <% @found_in_Topics.each_with_index do |t, index| %>
+          <%    if !@posts_by_topic.nil? %>
+          <%        @posts_by_topic.each_with_index do |p, index2|  %>
+                      <p> <%= link_to t.title, topic_posts_path(p)%><p>
+          <%        end %>
+          <%    end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Result found in Photos (<%= @nbr_total_photos_topics %>)</a>
+        </h4>
+      </div>
+      <div id="collapse3" class="panel-collapse collapse">
+        <div class="panel-body">
+          <% @found_in_Topics.each_with_index do |t, index| %>
+          <%    if !@photos_by_topic.nil? %>
+          <%       @photos_by_topic.each_with_index do |ph, index3| %>
+                     # <p><a href="/topics/<%= ph.id %>/posts"></a>Photo: <%= index3 %></p>
+          <%       end %>
+          <%    end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>

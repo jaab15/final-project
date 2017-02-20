@@ -1,0 +1,2 @@
+module SaletradewantsHelper
+end

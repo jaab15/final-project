@@ -1,0 +1,271 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require_tree .
+ */
+
+ @import "bootstrap-sprockets";
+ @import "bootstrap";
+
+// ====== seach =======
+
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+   margin-top: -6px;
+   margin-left: -1px;
+   -webkit-border-radius: 0 6px 6px 6px;
+   -moz-border-radius: 0 6px 6px;
+   border-radius: 0 6px 6px 6px;
+   background-color: #DDDDFF;      /* color submenu in blue */
+ }
+
+ .dropdown-submenu:hover>.dropdown-menu { /* sans lui pas de sous menu*/
+    display: block;
+  }
+
+ .nav > li:hover > ul {            /* color en bleu le sous menu principal */
+    background-color: #DDDDFF;
+  }
+
+#navimg {
+  line-height: 40px;
+}
+
+.navbar-brand {
+  padding: 0px;
+}
+
+.navbar-brand>img {
+  height: 100%;
+  padding: 15px;
+  width: auto;
+}
+
+/*  Logo */
+img {
+  padding-top: 8px;
+  margin-left: 15px;
+  text-align: center;
+}
+
+.jumbotron{
+  opacity: 0.3;
+}
+
+H2 { text-align: center }
+
+ .col-md-2:first-child {
+   border-left:    2px solid white;
+   padding-left:  15px;
+   padding-right:  0px;
+   padding-top:    5px;
+   padding-bottom: 0px;
+  }
+
+ .col-md-2:last-child {
+   border-right:   2px solid white;
+   padding-left:   0px;
+   padding-right: 15px;
+   padding-top:    5px;
+   padding-bottom: 0px;
+  }
+
+ .col-md-2 {
+   padding-left:   0px;
+   padding-right:  0px;
+   padding-top:    5px;
+   padding-bottom: 0px;
+  }
+
+ .col-md-6 {
+   padding-left:   0px;
+   padding-right:  0px;
+   padding-top:    5px;
+   padding-bottom: 0px;
+  }
+
+ .container {
+  ///  opacity: 0.9;
+    border-radius: 5px;
+    padding-left:  15px;
+    padding-right: 15px;
+    padding-top:    0px;
+    padding-bottom: 0px;
+    min-height:   300px;
+    border: 1px solid black;
+    background: #EEEEEE;
+  }
+
+ .allcontainers {
+   min-height:    300px;
+   margin-left:    0px;
+   margin-right:   0px;
+   padding-left:   0px;
+   padding-right:  0px;
+   border-radius: 5px;
+   border: 2px solid black;
+  }
+ .row.myrow {
+   background-color:	#DDDDFF;
+ }
+
+ .user-photo {
+  // background-color:	#DDDDFF;
+    min-height:    100px;
+    padding-right:  0px;
+    padding-left:  5px;
+    padding-bottom: 0px;
+    padding-left:   0px;
+    border-radius: 5px;
+    border:         2px solid blue;
+
+    width:   80%;
+    // height: 100px;
+    background-image: url('http://www.jqueryscript.net/images/Simplest-Responsive-jQuery-Image-Lightbox-Plugin-simple-lightbox.jpg');
+    background-size: cover;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .item-photo {
+    min-height:    150px;
+    padding-right:  0px;
+    padding-left:  15px;
+    padding-bottom: 0px;
+    padding-left:   0px;
+    border-radius: 5px;   // 12
+    border:         2px solid blue;
+
+    width:   90%;
+  //  height: 100px;
+    background-image: url('http://www.aos.org/AOS/media/Content-Images/Orchids/trianae.jpg');
+    background-size: cover;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+   }
+
+ .some-class2 {
+    min-height:    50px;
+    padding-right:  0px;
+    padding-left:   0px;
+    padding-bottom: 0px;
+    padding-left:   0px;
+   }
+
+ .some-class3 {
+    min-height:    50px;
+    padding-right:  0px;
+    padding-left:   0px;
+    padding-bottom: 0px;
+    padding-left:   0px;
+   }
+
+ .some-class4 {
+    min-height:    50px;
+    padding-right: 15px;
+    padding-left:   0px;
+    padding-bottom: 0px;
+    padding-left:   0px;
+   }
+
+ .content1 {
+    padding-left:  15px;
+    padding-bottom: 5px;
+    min-height:    50px;
+   }
+
+ .content2 {
+    background-color: #E3E3E5;
+    min-height:  50px;
+    margin-left: 60px;
+    margin-top:  10px;
+    margin-bottom: 10px;
+    padding-top:  5px;
+    padding-right: 15px;
+    padding-bottom: 0px;
+    border-radius: 5px;
+    border:         2px solid #ccc;
+   }
+
+ .content3 {
+   min-height:     50px;
+   padding-left:   15px;
+   padding-top:     0px;
+   padding-bottom: 15px;
+   }
+
+ .header {
+   border:         2px solid white;
+  //              top  right bot left
+   border-radius: 5px 5px 0px 0px;
+   margin-right:   0px  0px 0px 0px;
+   padding-right:  6px;
+   padding-left:   6px;
+   padding-top:    6px;
+   background: #585858;
+   color: #DDDDFF;
+ }
+
+ #username {
+   font-size:     20px;
+ }
+
+ #onoff {
+   font-size:     9px;
+ }
+
+ #fortsw {
+   font-size:     12px;
+ }
+
+ .footer {
+   //              top  right bot left
+   border:         2px solid white;
+   border-radius:  0px 0px 5px 5px;
+   margin-right:   0px;
+   margin-left:    0px;
+   margin-bottom:  0px;
+   padding-right:  6px;
+   padding-left:   6px;
+   padding-bottom: 0px;
+   background: #E3E3E5;
+   color: black;
+ }
+
+ .btn.btn-mydefault {
+   background-color: #DDDDFF;
+   color: #333333;
+   border: 1px solid black;
+}
+
+.btn.btn-mydefault:hover {
+  color: solid blue;
+}
+
+.btn.btn-search {
+  background-color: #DDDDFF;
+  border-radius: 5;
+}
+
+// .glyphicon-search {
+//   color: #DDDDFF;
+//   background-color: black;
+//   font-size: 20px;
+//   padding: 0px;
+// }
+
+// .form-control{
+//   background-color: #E3E3E5;    // jose color input saisie
+// }

@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  body: MyString
+  privatereplyto: 1
+  emailBuyer: MyString
+
+two:
+  body: MyString
+  privatereplyto: 1
+  emailBuyer: MyString

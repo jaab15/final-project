@@ -1,0 +1,43 @@
+<div class="jumbotron">
+  <h1>Trade / Sale / Wanted</h1>
+</div>
+
+<!-- -----
+:type_stw => :string,
+:title => :string,
+:description => :string,
+:active => :boolean,
+:emailbuyer => :string,
+:buyer_id => :string,
+:feedback => :string,
+:user_id => :integer,
+:topic_id => :integer
+----- -->
+
+    <div class = "container">
+            <div class = "row">
+              <div class = "col-md-12 header">
+                  <p id=header1></p>
+             </div>
+           </div>
+
+           <div class="" id="textEditorSTW" id="logbox"  >
+<%=           form_for  SaleTradeWant.new, url: {action: "create"}, html: {class: "submitForm"} do |f| %>
+                <%= f.text_field :type_stw, :placeholder => "S (sale), T (trade) or W (wanted)",        :class => "input pass" %>
+                <%= f.text_field :title,    :placeholder => "Title",        :class => "input pass" %>
+                <%= f.text_area  :description, class: "tinymce",
+                                               :placeholder => "Description",
+                                               size: "12x9",
+                                               id: "mytextareaSTW" %>
+                <%= tinymce %>
+
+                <div class = "row">
+                  <div class = "col-md-12 footer">
+                    <%= f.submit "Send it!", :class => "inputButton" %>
+                  </div>
+               </div>
+
+<%            end %>
+           </div>
+
+    </div>

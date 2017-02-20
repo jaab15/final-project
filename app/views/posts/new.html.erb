@@ -1,0 +1,12 @@
+
+<div id="logbox"  >
+<%=    form_for  Post.new, url: {action: "create"}, html: {class: "submitForm"} do |f| %>
+        <%= f.text_field :title, value: 'First Post of the Topic', readonly: true %>
+        <%= f.text_area  :body, class: "tinymce input pass" ,
+                                :placeholder => "Hi, nice site",
+                                size: "12x9",
+                                id: "mytextarea" %>
+        <%= tinymce %>
+        <%= f.submit "Send it!", :class => "inputButton" %>
+<%     end %>
+</div>

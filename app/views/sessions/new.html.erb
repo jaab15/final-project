@@ -1,0 +1,20 @@
+<% unless @user.nil? %>
+<%   if @user.errors.any? && @user%>
+        <ul>
+           <% @user.errors.full_messages.each do |msg| %>
+             <li><%= msg %></li>
+<%         end %>
+       </ul>
+<%    end %>
+<% end %>
+
+<div>
+  <div id="logbox"  >
+    <form id="signin" method="get" action="new" >
+        <h1>Sign in</h1>
+        <input name="user[email]"     type="email"     placeholder="Enter your email address" class="input pass"/>
+        <input name="user[password]"  type="password"  placeholder="Enter your password" required="required" class="input pass"/>
+        <input type="submit" value="Sign me in!" class="inputButton"/>
+    </form>
+  </div>
+</div>

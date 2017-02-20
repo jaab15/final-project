@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  enable: false
+  connected: false
+  Location: MyString
+  avatar: MyString
+  rating: MyString
+  lastTopic: MyString
+
+two:
+  enable: false
+  connected: false
+  Location: MyString
+  avatar: MyString
+  rating: MyString
+  lastTopic: MyString

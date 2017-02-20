@@ -1,0 +1,12 @@
+
+ <div id="logbox"  >
+<%=  form_for Topic.new, url: {action: "create"}, html: {class: "nifty_form"} do |f| %>
+       <%= f.text_field :title ,       :placeholder => "Title",      :class => "input pass" %>
+       <%= f.text_field :description , :placeholder => "Description",:class => "input pass" %>
+       <%  f.text_field :enable ,      :value => "true", :class => "input pass" %>
+       <%  f.text_field :owner ,       :value => "#{current_user.id}", :class => "input pass" %>
+       <%  f.text_field :user_id ,     :value => "#{current_user.id}", :class => "input pass" %>
+       <%  f.text_field :category_id , :value => "#{params[:category_id]}", :class => "input pass" %>
+       <%= f.submit "Create a new Topic!", :placeholder => "Create a new Topic", :class => "inputButton" %>
+<%   end %>
+ </div>

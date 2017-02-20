@@ -1,0 +1,164 @@
+
+<div class="jumbotron">
+   <% topic = Topic.find_by_sql( "select title,
+                                         description,
+                                         id
+                                 from topics
+                                where id = #{params[:topic_id]}") %></h2>
+  <h1><%= topic[0].title %> </h1>
+  <h2><%= topic[0].description %> </h2>
+
+</div>
+
+<div>
+  <%= paginate @posts %>
+</div>
+
+<%  @posts.each_with_index do |p, index| %>
+
+<%     if @users[index].id.is_a? Numeric %>
+<%        nbrPosts = @posts.find_by_sql([ "select id
+                                             from posts
+                                            where user_id = #{@users[index].id}"
+          ]).count  %>
+
+<%        userprofile = UserProfile.find_by_sql([ "select location
+                                                     from user_profiles
+                                                    where user_id = ?", @users[index].id
+          ])  %>
+
+<%        forSale = SaleTradeWant.find_by_sql([ " select id
+                                                    from sale_trade_wants
+                                                   where active is true
+                                                     and type_stw = 'S'
+                                                     and user_id = ?", @users[index].id
+
+          ]).count %>
+
+<%        forTrade = SaleTradeWant.find_by_sql([ " select id
+                                                    from sale_trade_wants
+                                                   where active is true
+                                                     and type_stw = 'T'
+                                                     and user_id = ?", @users[index].id
+
+          ]).count %>
+
+<%        wanted = SaleTradeWant.find_by_sql([ " select id
+                                                   from sale_trade_wants
+                                                  where active is true
+                                                    and type_stw = 'W'
+                                                    and user_id = ?", @users[index].id
+
+          ]).count %>
+<%     end %>
+
+      <div class = "container">
+           <div class = "row">
+
+             <div class = "col-md-12 header">
+                  <div>
+                    <span class="pull-left"><%= p.created_at.strftime("%A,%w %b %Y %H:%M") %></span>
+                    <span class="pull-right">  Post  <%= p.id %> of  <%=@totalPosts%></span>
+                  </div>
+             </div>
+
+             <div class = "col-md-12 content1">
+                <div class = "row myrow">
+
+                    <div class = "col-md-2">
+                        <div class="user-photo">
+                          <!-- <img src="..." class="img-fluid" alt="Responsive image"> -->
+                        </div>
+                    </div>
+
+                    <div class = "col-md-4">
+                        <div class="some-class2">
+                            <p id="username"><%= @users[index].username %></p>
+                            <p id="onoff">Offline 🔴 Online 🎾 </p>
+                            <br>
+                            <p id="forstw">For Trade:<%= forSale %>
+                                           For Sale:<%= forTrade %>
+                                           Wanted:<%= wanted %>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class = "col-md-4">
+                        <div class="some-class3">
+                        </div>
+                    </div>
+
+                    <div class = "col-md-2">
+                        <div class="some-class4">
+                          <p id="nbrposts"><%= nbrPosts %> Posted</p>
+                          <% if userprofile == nil     ||
+                                !defined?(userprofile) ||
+                                userprofile.empty? %>
+                              <br><br>
+                          <% else %>
+                              <br>
+                              <p id="location">Location: <%= userprofile[0].location %> </p>
+                          <% end %>
+                          <p id="joined">Joined: <%= @users[index].created_at.strftime("%w %b %Y")%></p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class = "col-md-11 content2">
+              <div class="some-class">
+                  Some text
+              </div>
+            </div>
+
+            <div class = "col-md-12 content3">
+              <div class="some-class">
+                <p>
+                  <%= p.body.html_safe %>
+                </p>
+              </div>
+            </div>
+
+            <div class = "col-md-12 footer">
+               <button type="button" id="post<%= index %>"
+                      class="btn btn-default pull-right btn-mydefault"
+                      data-toggle="collapse"
+                      data-target="#textEditor<%= index %>">
+                      <span class="glyphicon glyphicon-collapse-down"></span> Reply
+               </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+      $(document).ready(function(){
+        $("#textEditor<%= index %>").on("hide.bs.collapse", function(){
+          $("#post<%= index %>").html('<span class="glyphicon glyphicon-collapse-down"></span> Reply');
+          });
+        $("#textEditor<%= index %>").on("show.bs.collapse", function(){
+          $("#post<%= index %>").html('<span class="glyphicon glyphicon-collapse-up"></span> Close');
+          });
+      });
+    </script>
+
+
+    <div class="container collapse" id="textEditor<%= index %>" >
+<%=    form_for  Post.new, url: {action: "create"}, html: {class: "submitForm"} do |f| %>
+         <%= f.text_field :user_id,  :value => "#{@users[index].id}" %>
+         <%= f.text_field :topic_id, :value => "#{topic[0].id}" %>
+         <%= f.text_field :replyto,  :value => "#{p.id}" %>
+         <%= f.text_area  :body, class: "tinymce",
+                                 :placeholder => "Hi, nice site",
+                                 size: "12x9",
+                                 id: "mytextarea#{index}" %>
+         <%= tinymce %>
+         <%= f.submit "Send it!", :class => "inputButton" %>
+<%     end %>
+    </div>
+
+<% end %>
+
+ <div>
+  <%= paginate @posts %>
+</div>

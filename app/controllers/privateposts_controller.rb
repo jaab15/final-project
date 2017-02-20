@@ -1,0 +1,2 @@
+class PrivatepostsController < ApplicationController
+end

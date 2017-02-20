@@ -1,0 +1,22 @@
+
+<% unless @user.nil? %>
+<%   if @user.errors.any? && @user%>
+        <ul>
+<%         @user.errors.full_messages.each do |msg| %>
+             <li><%= msg %></li>
+<%         end %>
+       </ul>
+<%    end %>
+<% end %>
+
+   <div id="logbox"  >
+<%=  form_for User.new, url: {action: "create"}, html: {class: "nifty_form"} do |f| %>
+       <%= f.text_field :firstname, :placeholder => "First name",        :class => "input pass" %>
+       <%= f.text_field :lastname , :placeholder => "Last name",         :class => "input pass" %>
+       <%= f.text_field :username , :placeholder => "Username",          :class => "input pass" %>
+       <%= f.text_field :email    , :placeholder => "Email address",     :class => "input pass" %>
+       <%= f.text_field :password , :placeholder => "Choose a password", :class => "input pass" %>
+       <%= f.text_field :password , :placeholder => "Confirme the password", :class => "input pass" %>
+       <%= f.submit "Sign me up!" , :placeholder => "Sign me up!",       :class => "inputButton" %>
+<%   end %>
+ </div>

@@ -1,0 +1,183 @@
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>JoseFinalProject</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <script src='//cdn.tinymce.com/4/tinymce.min.js'></script>
+    <script>
+      tinymce.init({
+        selector: '#mytextarea'
+      });
+    </script>
+
+    <style type="text/css">
+      #search {
+        margin-top: 10px;
+        margin-right: 80px;
+      }
+    </style>
+
+</head>
+ <body>
+
+      <!-- <div class="navbar navbar-inverse navbar-fixed-top"> -->
+      <!-- <div class="navbar navbar-inverse navbar-fluid"> -->
+        <div class="navbar navbar-inverse navbar-fixed-fluid">
+
+        <div class="navbar-header">
+
+          <img src="//placehold.it/44x44" class="img-responsive myimg" href="#">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!-- <a class="navbar-brand" href="#"><img src="the-forum-logo.png" alt=""></a> -->
+        </div>
+
+        <div class="navbar-collapse collapse">
+
+          <ul class="nav navbar-nav navbar-left">
+            <li class="active" ><a href="/">Home</a></li>
+            <li>
+              <a  href="#" class="dropdown-toggle" data-toggle="dropdown">Forums <b class="caret"></b></a>
+              <ul class="dropdown-menu multi-level">
+                <li class="dropdown-active>
+                  <ul class="dropdown-menu multi-level">
+<%                   @categories = Category.find_by_sql([ "select id,
+                                                                  title,
+                                                                  description
+                                                             from categories"
+                      ]) %>
+<%                    if  user_signed_in? %>
+                          <li><a href="/categories/new" style={color="#3CC"} data-method="get">Create a new Category</a></li>
+                          <li class = "divider"></li>
+<%                    end %>
+<%                    @categories.each do |c| unless @categories.empty? %>
+<%                      @topics = Topic.find_by_sql([ "select id,
+                                                              title,
+                                                              description,
+                                                              category_id
+                                                         from topics
+                                                        where category_id = ?", c.id
+                        ]) %>
+                        <li class="dropdown dropdown-submenu"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><%= c.title %></a>
+                          <ul class="dropdown-menu">
+<%                            if @topics.nil? || @topics.empty? %>
+<%                               if  user_signed_in?  %>
+                                    <li><a href="/categories/<%= c.id %>/topics/new" style={color="#3CC"} data-method="get">Create a new topic</a></li>
+                                    <li class = "divider" style={background-color="#3CC"} ></li>
+<%                               end %>
+<%                            end %>
+<%                            @topics.each_with_index do |t, i| %>
+<%                               if i == 0 %>
+<%                                  if  user_signed_in?  %>
+                                        <li><a href="/categories/<%= t.category_id %>/topics/new" style={color="#3CC"} data-method="get">Create a new topic</a></li>
+                                        <li class = "divider" style={background-color="#3CC"} ></li>
+<%                                  end %>
+<%                               end %>
+                                <li><a href="/topics/<%= t.id %>/posts"><%= t.title %></a></li>
+<%                            end %>
+                          </ul>
+                        </li>
+<%                    end  %>
+
+                  </ul>
+                </li>
+
+                <li style="color: #DDDDFF"><%= link_to 'Gallery', root_path %></li>
+                <li style="color: #DDDDFF">
+                  <a  href="#" class="dropdown-toggle" data-toggle="dropdown">Sale/Trade/Wanted <b class="caret"></b></a>
+                    <ul class="dropdown-menu multi-level">
+
+<%                      @categories.each_with_index do |c, i| unless @categories.empty?  %>
+<%                        @topics = Topic.find_by_sql([ "select T.id,
+                                                                T.title,
+                                                                T.description
+                                                           from topics           as T,
+                                                                sale_trade_wants as S
+                                                          where T.id = S.topic_id
+                                                            and T.category_id = ?", c.id
+                          ]) %>
+                          <li class="dropdown dropdown-submenu"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><%= c.title %></a>
+                            <ul class="dropdown-menu">
+<%                              if @topics.nil? || @topics.empty? %>
+<%                                 if user_signed_in?  %>
+                                      <li><a href="/topics/@topics[i].id/saletradewants/new" style={color="#3CC"} data-method="get">Create a new Sale/Trade/Wanted</a></li>
+                                      <li class = "divider" style={background-color="#3CC"} ></li>
+<%                                 end %>
+<%                              end %>
+
+<%                              @topics.each_with_index do |t, i| %>
+
+<%                                 if i == 0 %>
+<%                                    if user_signed_in? %>
+                                         <li><a href="/topics/<%= t.id %>/saletradewants/new	" style={color="#3CC"} data-method="get">Create a new Sale/Trade/Wanted</a></li>
+                                         <li class = "divider"></li>
+<%                                    end %>
+<%                                 end %>
+                                  <li><a href="/topics/<%= t.id %>/saletradewants"><%= t.title %></a></li>
+<%                              end %>
+                            </ul>
+                          </li>
+<%                      end %>
+                    </ul>
+                </li> <!-- sale trade wanted -->
+
+              </ul> <!-- dropdown-menu multi-level -->
+            </li>  <!-- Forums -->
+          </ul> <!-- End of navbar-left-->
+
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <!-- <div class="mysearch"> -->
+              <div>
+<%                if !@categories.empty? %>
+<%=                  form_tag(category_topics_path(@categories), :method => "get") do %>
+<%=                     text_field_tag :search, params[:search], placeholder: "Global Search",
+                                                                 class: 'form-control input-sm',
+                                                                 maxlenght: 64 %>
+<%                   end %>
+<%                end %>
+                   <!-- <button type="submit" class="btnsearch btn-primary btn-sm">Search</button> -->
+              </div>
+            </li>
+
+            <li>
+              <div>
+<%               if user_signed_in? %>
+                   <li class="navbar-text">Hello <%= current_user.firstname %></li>
+                   <li><%= link_to 'Sign Out', sessions_path, method: :delete %></li>
+<%               else %>
+                   <li><%= link_to 'Sign up',  new_user_path, method: :get %></li>
+                   <li><%= link_to 'Sign In',  new_session_path, method: :get %></li>
+<%               end %>
+
+                 <li><%= link_to 'User Profile', root_path %></li>
+
+              </div>
+            </li>
+          </ul> <!-- En navbar-right -->
+
+        </div> <!-- .nav-collapse -->
+    </div>
+
+    <%= notice || alert %>
+
+  <%= yield %>
+</body>
+</html>

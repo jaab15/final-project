@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type: 
+  title: MyString
+  description: MyString
+  'n': MyString
+  active: false
+  emailBuyer: MyString
+  idBuyer: MyString
+  feedback: MyString
+
+two:
+  type: 
+  title: MyString
+  description: MyString
+  'n': MyString
+  active: false
+  emailBuyer: MyString
+  idBuyer: MyString
+  feedback: MyString
