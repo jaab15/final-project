@@ -1,6 +1,17 @@
+<!-- <div class="jumbotron"> -->
+  <!-- <h1>Trade / Sale / Wanted</h1> -->
+<!-- </div> -->
+<!-- ========================================== -->
 <div class="jumbotron">
-  <h1>Trade / Sale / Wanted</h1>
+   <% category = Category.find_by_sql( "select title,
+                                               description,
+                                               id
+                                          from categories
+                                         where id = #{params[:topic_id]}") %></h2>
+  <h1><%= category[0].title %> </h1>
+
 </div>
+<!-- ========================================== -->
 
 <!-- -----
 :type_stw => :string,
